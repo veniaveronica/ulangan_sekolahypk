@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Masuk Ulangan</title>
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="masuk.css">
+</head>
+<body>
+
+<section class="card">
+
+  <!-- Tampilan login / input token -->
+  <div id="login">
+    <h1>Masuk Ulangan</h1>
+    <p class="sub">Masukkan token yang diberikan guru untuk membuka ulangan.</p>
+
+    <!-- Peringatan (diisi oleh JS) -->
+    <div id="notice-box"></div>
+
+    <form id="f" autocomplete="off">
+      <label for="token">Token</label>
+      <input id="token" type="text" autocapitalize="characters"
+             spellcheck="false" placeholder="Masukkan token ulangan" required>
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn" type="submit">Masuk</button>
+    </form>
+  </div>
+
+  <!-- Tampilan setelah token benar -->
+  <div id="siap" hidden>
+    <h1>Token benar</h1>
+    <p class="sub">Kamu akan mengerjakan ulangan:</p>
+    <p class="mapel" id="nama"></p>
+    <p class="sub">Klik tombol di bawah. Formulir terbuka di tab baru.</p>
+    <a class="btn" id="tautan" href="#" target="_blank" rel="noopener">Buka formulir ulangan</a>
+    <button class="link" id="ganti" type="button">Ganti token</button>
+  </div>
+
+</section>
+
+<!-- Firebase SDK (harus sebelum firebase-config.js dan masuk.js) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<!-- Konfigurasi Firebase (isi databaseURL dll di file ini) -->
+<script src="firebase-config.js"></script>
+
+<!-- Logika halaman -->
+<script src="masuk.js"></script>
+</body>
+</html>

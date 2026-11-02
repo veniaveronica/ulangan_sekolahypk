@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pengaturan Ulangan</title>
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="pengaturan.css">
+</head>
+<body>
+
+<main>
+  <h1>Pengaturan Ulangan</h1>
+  <p class="sub">
+    Isi token dan link Google Form untuk tiap kelas dan mata pelajaran.
+    Data tersimpan otomatis ke database &amp; langsung aktif untuk siswa.
+  </p>
+
+  <!-- Tab navigasi kelas (diisi oleh JS) -->
+  <div class="tabs" role="tablist" aria-label="Pilih kelas" id="tabs"></div>
+
+  <!-- Grid tabel per kelas (diisi oleh JS) -->
+  <div id="grid"></div>
+</main>
+
+<!-- Firebase SDK (harus sebelum firebase-config.js dan pengaturan.js) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<!-- Konfigurasi Firebase -->
+<script src="firebase-config.js"></script>
+
+<!-- Logika halaman -->
+<script src="pengaturan.js"></script>
+</body>
+</html>

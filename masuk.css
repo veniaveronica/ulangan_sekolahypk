@@ -1,0 +1,118 @@
+﻿/* ============================================================
+   masuk.css  –  Gaya khusus halaman Masuk Ulangan
+   ============================================================ */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--accent);
+  border-radius: 8px;
+  padding: 32px 28px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.sub {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .95rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  font: inherit;
+  font-size: 1.1rem;
+  letter-spacing: .08em;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+input:focus-visible,
+.btn:focus-visible,
+.link:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.err {
+  min-height: 1.6em;
+  margin: 8px 0 14px;
+  color: var(--err);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .92rem;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  border-radius: 6px;
+  padding: 13px 24px;
+  font: inherit;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link {
+  display: block;
+  margin: 16px auto 0;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .92rem;
+}
+
+.mapel {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 18px 0 6px;
+}
+
+.notice {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .88rem;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
