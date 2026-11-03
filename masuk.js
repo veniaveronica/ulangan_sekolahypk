@@ -43,7 +43,7 @@ db.ref('ulangan').on('value', function (snapshot) {
   var noticeBox = $('notice-box');
   if (!daftarUlangan.length) {
     noticeBox.innerHTML =
-      '<p class="notice">&#9888; Belum ada ulangan dikonfigurasi. ' +
+      '<p class="notice">&#9888; Belum ada ujian dikonfigurasi. ' +
       'Minta guru membuka <strong>Pengaturan Ulangan.html</strong> ' +
       'dan mengisi token serta link Google Form.</p>';
   } else {
@@ -73,7 +73,7 @@ $('f').addEventListener('submit', function (e) {
     return;
   }
   if (!u.aktif) {
-    $('err').textContent = 'Ulangan ' + u.n + ' belum dibuka atau sudah ditutup.';
+    $('err').textContent = 'Ujian ' + u.n + ' belum dibuka atau sudah ditutup.';
     return;
   }
   if (!u.u) {

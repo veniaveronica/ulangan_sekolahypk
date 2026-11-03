@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    pengaturan.js  –  Logika halaman Pengaturan Ulangan
    Data disimpan ke Firebase Realtime Database.
    Format key Firebase: "KELAS|MAPEL"
@@ -33,7 +33,7 @@ function bangunHTML() {
       '<section class="kelas" role="tabpanel" id="p-' + k +
       '" aria-labelledby="tab-' + k + '"' +
       (k !== kelas[0] ? ' hidden' : '') + '>' +
-      '<h2>Ulangan Kelas ' + k + '</h2>' +
+      '<h2>Ujian Kelas ' + k + '</h2>' +
       '<div class="tw"><table>' +
       '<thead><tr>' +
         '<th scope="col">Mata pelajaran</th>' +
@@ -51,7 +51,7 @@ function bangunHTML() {
         '<th scope="row">' + m + '</th>' +
         '<td><input id="t-' + id + '" aria-label="Token ' + m + ' kelas ' + k +
           '" data-k="' + k + '" data-m="' + m + '" data-f="t"' +
-          ' type="text" autocomplete="off" placeholder="Token ulangan"></td>' +
+          ' type="text" autocomplete="off" placeholder="Token ujian"></td>' +
         '<td><input id="u-' + id + '" aria-label="Link Google Form ' + m + ' kelas ' + k +
           '" data-k="' + k + '" data-m="' + m + '" data-f="u"' +
           ' type="url" autocomplete="off" placeholder="https://forms.gle/..."></td>' +

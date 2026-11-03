@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Masuk Ulangan</title>
+  <title>Masuk Ujian</title>
   <link rel="stylesheet" href="shared.css">
   <link rel="stylesheet" href="masuk.css">
 </head>
@@ -18,14 +18,14 @@
 
   <!-- Tampilan login / input token -->
   <div id="login">
-    <h1>Masuk Ulangan</h1>
-    <p class="sub">Masukkan token yang diberikan guru untuk membuka ulangan.</p>
+    <h1>Masuk Ujian</h1>
+    <p class="sub">Masukkan token yang diberikan guru untuk membuka ujian.</p>
 
     <!-- Peringatan (diisi oleh JS) -->
     <div id="notice-box"></div>
 
     <form id="f" autocomplete="off">
-      <label for="token">Token Ulangan</label>
+      <label for="token">Token Ujian</label>
       <input id="token" type="text" autocapitalize="characters"
              spellcheck="false" placeholder="Masukkan token di sini" required>
       <p class="err" id="err" role="alert"></p>
@@ -41,13 +41,13 @@
       <div class="mapel-nama" id="nama"></div>
     </div>
 
-    <p class="sub">Klik tombol di bawah untuk membuka formulir ulangan:</p>
+    <p class="sub">Klik tombol di bawah untuk membuka formulir ujian:</p>
 
     <!-- Tombol Bersampingan -->
     <div class="btn-group">
       <button class="btn btn-secondary" id="ganti" type="button">Ganti token</button>
       <a class="btn btn-primary" id="tautan" href="#" target="_self">
-        Buka formulir ulangan
+        Buka formulir ujian
       </a>
     </div>
   </div>
