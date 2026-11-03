@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    masuk.js  –  Logika halaman Masuk Ulangan
    Membaca data dari Firebase Realtime Database secara real-time.
    Data diisi guru melalui Pengaturan Ulangan.html
@@ -84,8 +84,18 @@ $('f').addEventListener('submit', function (e) {
   $('err').textContent  = '';
   $('nama').textContent = u.n;
   $('tautan').href      = u.u;
+  $('tautan').target    = '_self';
   $('login').hidden     = true;
   $('siap').hidden      = false;
+});
+
+/* ── Handler buka formulir di tab/jendela yang sama ────────────────────── */
+$('tautan').addEventListener('click', function (e) {
+  var href = this.getAttribute('href');
+  if (href && href !== '#' && !href.startsWith('javascript:')) {
+    e.preventDefault();
+    window.location.href = href;
+  }
 });
 
 /* ── Handler tombol ganti token ─────────────────────────────────────────── */
