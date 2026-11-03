@@ -11,6 +11,11 @@
 
 <section class="card">
 
+  <!-- Logo Yayasan / Sekolah -->
+  <div class="logo-box">
+    <img src="logo.png" alt="Yayasan Pendidikan Kristen Air Kenanga" class="logo">
+  </div>
+
   <!-- Tampilan login / input token -->
   <div id="login">
     <h1>Masuk Ulangan</h1>
@@ -20,9 +25,9 @@
     <div id="notice-box"></div>
 
     <form id="f" autocomplete="off">
-      <label for="token">Token</label>
+      <label for="token">Token Ulangan</label>
       <input id="token" type="text" autocapitalize="characters"
-             spellcheck="false" placeholder="Masukkan token ulangan" required>
+             spellcheck="false" placeholder="Masukkan token di sini" required>
       <p class="err" id="err" role="alert"></p>
       <button class="btn" type="submit">Masuk</button>
     </form>
@@ -30,12 +35,21 @@
 
   <!-- Tampilan setelah token benar -->
   <div id="siap" hidden>
-    <h1>Token benar</h1>
-    <p class="sub">Kamu akan mengerjakan ulangan:</p>
-    <p class="mapel" id="nama"></p>
+    <h1>Token Benar</h1>
+
+    <div class="mapel-card">
+      <div class="mapel-nama" id="nama"></div>
+    </div>
+
     <p class="sub">Klik tombol di bawah untuk membuka formulir ulangan:</p>
-    <a class="btn" id="tautan" href="#">Buka formulir ulangan</a>
-    <button class="link" id="ganti" type="button">Ganti token</button>
+
+    <!-- Tombol Bersampingan -->
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="ganti" type="button">Ganti token</button>
+      <a class="btn btn-primary" id="tautan" href="#" target="_blank" rel="noopener noreferrer">
+        Buka formulir ulangan
+      </a>
+    </div>
   </div>
 
 </section>

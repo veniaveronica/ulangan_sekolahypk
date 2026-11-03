@@ -1,50 +1,23 @@
-﻿/* ============================================================
+/* ============================================================
    shared.css  –  Variabel warna & utilitas bersama
    Dipakai oleh: Masuk Ulangan.html & Pengaturan Ulangan.html
    ============================================================ */
 
-/* Token warna (light mode default) */
+/* Token warna (Light mode saja) */
 :root {
   --bg:           #f4f6f9;
   --surface:      #fff;
   --text:         #1b2a41;
   --muted:        #5d6b80;
   --line:         #d9dfe8;
-  --accent:       #1f3a5f;
+  --accent:       #282377;
   --accent-text:  #fff;
   --ring:         #2f6fdb;
   --err:          #b3261e;
+  color-scheme:   light;
   box-sizing: border-box;
   padding-top:    env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-/* Dark mode otomatis */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg:           #0f1624;
-    --surface:      #182236;
-    --text:         #e8edf5;
-    --muted:        #9aa8bd;
-    --line:         #2b3a54;
-    --accent:       #8db4f0;
-    --accent-text:  #0f1624;
-    --ring:         #8db4f0;
-    --err:          #ff8a80;
-  }
-}
-
-/* Dark mode paksa via atribut */
-:root[data-theme="dark"] {
-  --bg:           #0f1624;
-  --surface:      #182236;
-  --text:         #e8edf5;
-  --muted:        #9aa8bd;
-  --line:         #2b3a54;
-  --accent:       #8db4f0;
-  --accent-text:  #0f1624;
-  --ring:         #8db4f0;
-  --err:          #ff8a80;
 }
 
 html { scroll-padding-top: env(safe-area-inset-top, 0px); }

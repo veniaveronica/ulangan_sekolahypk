@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    pengaturan.css  –  Gaya khusus halaman Pengaturan Ulangan
    ============================================================ */
 
@@ -117,12 +117,6 @@ th:nth-child(4), td:nth-child(4) { width: 120px; text-align: center; }
 }
 
 input:checked + .slider { background: var(--accent); }
-
-:root[data-theme="dark"] input:checked + .slider { background: #4c9be8; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) input:checked + .slider { background: #4c9be8; }
-}
 
 input:checked + .slider::before { transform: translateX(20px); }
 
