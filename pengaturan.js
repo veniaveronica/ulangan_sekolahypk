@@ -18,11 +18,37 @@ function ambil(k, m, f) {
   return (data[k + '|' + m] && data[k + '|' + m][f]) || '';
 }
 
+var simpanTimer = null;
+
+function setStatus(tipe, teks) {
+  var badge = $('status-badge');
+  var txt   = $('status-text');
+  if (!badge || !txt) return;
+
+  badge.className = 'status-badge status-' + tipe;
+  txt.textContent = teks;
+}
+
 /** Simpan seluruh data ke Firebase */
-function simpan() {
-  db.ref('ulangan').set(data).catch(function (err) {
-    console.error('Gagal simpan ke Firebase:', err);
-  });
+function simpan(segera) {
+  setStatus('saving', 'Menyimpan...');
+
+  clearTimeout(simpanTimer);
+
+  var eksekusi = function () {
+    db.ref('ulangan').set(data).then(function () {
+      setStatus('saved', 'Tersimpan');
+    }).catch(function (err) {
+      console.error('Gagal simpan ke Firebase:', err);
+      setStatus('error', 'Gagal menyimpan');
+    });
+  };
+
+  if (segera) {
+    eksekusi();
+  } else {
+    simpanTimer = setTimeout(eksekusi, 400);
+  }
 }
 
 /* ── Bangun HTML tabel per kelas ────────────────────────────────────────── */
@@ -96,7 +122,7 @@ function isiNilaiInput() {
       data[key]['aktif'] = cb.checked ? '1' : '0';
       var badge = cb.closest('td').querySelector('.badge-aktif');
       if (badge) badge.textContent = cb.checked ? 'Aktif' : 'Nonaktif';
-      simpan(); /* simpan ke Firebase setiap toggle */
+      simpan(true); /* simpan ke Firebase langsung saat toggle */
     });
   });
 }
@@ -129,10 +155,12 @@ db.ref('ulangan').once('value', function (snapshot) {
   bangunHTML();
   bangunTab();
   isiNilaiInput();
+  setStatus('saved', 'Tersimpan');
 }, function (error) {
   console.error('Gagal muat data dari Firebase:', error);
   /* Tetap bangun UI kosong supaya guru bisa mulai isi */
   bangunHTML();
   bangunTab();
   isiNilaiInput();
+  setStatus('error', 'Gagal memuat');
 });
