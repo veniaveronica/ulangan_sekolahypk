@@ -19,6 +19,8 @@ function ambil(k, m, f) {
 }
 
 var adaPerubahan = false;
+var perubahanLokal = {};
+var isOnline = typeof navigator !== 'undefined' ? navigator.onLine !== false : true;
 
 function setStatus(tipe, teks) {
   var badge = $('status-badge');
@@ -29,8 +31,38 @@ function setStatus(tipe, teks) {
   txt.textContent = teks;
 }
 
+function setKoneksi(online) {
+  isOnline = online;
+  var alertBox = $('offline-alert');
+
+  if (!online) {
+    if (alertBox) alertBox.hidden = false;
+    setStatus('offline', 'Offline');
+  } else {
+    if (alertBox) alertBox.hidden = true;
+    if (adaPerubahan) {
+      setStatus('unsaved', 'Belum disimpan');
+    } else {
+      setStatus('saved', 'Tersimpan');
+    }
+  }
+}
+
+/* ── Deteksi Sinyal & Status Koneksi Internet ───────────────────────────── */
+db.ref('.info/connected').on('value', function (snap) {
+  setKoneksi(snap.val() === true);
+});
+
+window.addEventListener('online', function () { setKoneksi(true); });
+window.addEventListener('offline', function () { setKoneksi(false); });
+
 /** Simpan seluruh data ke Firebase */
 function simpan() {
+  if (!isOnline) {
+    alert('Koneksi internet terputus (Offline). Periksa sinyal internet Anda sebelum menyimpan.');
+    return;
+  }
+
   var btn = $('btn-simpan');
   if (btn) {
     btn.disabled = true;
@@ -40,6 +72,7 @@ function simpan() {
 
   db.ref('ulangan').set(data).then(function () {
     adaPerubahan = false;
+    perubahanLokal = {};
     setStatus('saved', 'Tersimpan');
     if (btn) {
       btn.disabled = false;
@@ -119,7 +152,8 @@ function isiNilaiInput() {
           el.value.trim() && !/^https:\/\//i.test(el.value.trim()) ? 'true' : 'false');
       }
       adaPerubahan = true;
-      setStatus('unsaved', 'Belum disimpan');
+      perubahanLokal[key] = true;
+      if (isOnline) setStatus('unsaved', 'Belum disimpan');
     });
   });
 
@@ -131,8 +165,30 @@ function isiNilaiInput() {
       var badge = cb.closest('td').querySelector('.badge-aktif');
       if (badge) badge.textContent = cb.checked ? 'Aktif' : 'Nonaktif';
       adaPerubahan = true;
-      setStatus('unsaved', 'Belum disimpan');
+      perubahanLokal[key] = true;
+      if (isOnline) setStatus('unsaved', 'Belum disimpan');
     });
+  });
+}
+
+/** Perbarui nilai input dari data terbaru tanpa menimpa yang sedang diedit */
+function perbaruiNilaiInput() {
+  document.querySelectorAll('input[type=text], input[type=url]').forEach(function (el) {
+    var key = el.dataset.k + '|' + el.dataset.m;
+    // Jangan ubah input yang sedang aktif difokus/diketik atau ada editan lokal
+    if (el !== document.activeElement && !perubahanLokal[key]) {
+      el.value = ambil(el.dataset.k, el.dataset.m, el.dataset.f);
+    }
+  });
+
+  document.querySelectorAll('input[type=checkbox]').forEach(function (cb) {
+    var key = cb.dataset.k + '|' + cb.dataset.m;
+    if (!perubahanLokal[key]) {
+      var isAktif = ambil(cb.dataset.k, cb.dataset.m, 'aktif') === '1';
+      cb.checked = isAktif;
+      var badge = cb.closest('td').querySelector('.badge-aktif');
+      if (badge) badge.textContent = isAktif ? 'Aktif' : 'Nonaktif';
+    }
   });
 }
 
@@ -171,18 +227,49 @@ window.addEventListener('beforeunload', function (e) {
   }
 });
 
-/* ── Muat data dari Firebase, lalu bangun UI ────────────────────────────── */
-db.ref('ulangan').once('value', function (snapshot) {
-  data = snapshot.val() || {};
-  bangunHTML();
-  bangunTab();
-  isiNilaiInput();
-  setStatus('saved', 'Tersimpan');
+var uiSudahDibangun = false;
+
+/* ── Sinkronisasi data real-time dari Firebase agar tidak bentrok/nabrak ─── */
+db.ref('ulangan').on('value', function (snapshot) {
+  var dataServer = snapshot.val() || {};
+
+  // Muat pertama kali & bangun UI
+  if (!uiSudahDibangun) {
+    data = dataServer;
+    bangunHTML();
+    bangunTab();
+    isiNilaiInput();
+    uiSudahDibangun = true;
+    if (isOnline) setStatus('saved', 'Tersimpan');
+    return;
+  }
+
+  // Jika ada update dari perangkat lain di server, gabungkan tanpa menimpa editan lokal
+  Object.keys(dataServer).forEach(function (k) {
+    if (!perubahanLokal[k]) {
+      data[k] = dataServer[k];
+    }
+  });
+
+  // Hapus data lokal yang sudah dihapus di server (jika tidak diedit)
+  Object.keys(data).forEach(function (k) {
+    if (!dataServer[k] && !perubahanLokal[k]) {
+      delete data[k];
+    }
+  });
+
+  perbaruiNilaiInput();
+
+  if (isOnline && !adaPerubahan) {
+    setStatus('saved', 'Tersimpan');
+  }
 }, function (error) {
-  console.error('Gagal muat data dari Firebase:', error);
-  /* Tetap bangun UI kosong supaya guru bisa mulai isi */
-  bangunHTML();
-  bangunTab();
-  isiNilaiInput();
-  setStatus('error', 'Gagal memuat');
+  console.error('Gagal dengarkan Firebase:', error);
+  if (!uiSudahDibangun) {
+    bangunHTML();
+    bangunTab();
+    isiNilaiInput();
+    uiSudahDibangun = true;
+  }
+  setKoneksi(false);
 });
