@@ -52,9 +52,7 @@ function updateTombolSimpan() {
   var btn = $('btn-simpan');
   if (!btn) return;
   btn.disabled = !adaPerubahan;
-  if (adaPerubahan) {
-    btn.textContent = 'Simpan Perubahan';
-  }
+  btn.textContent = adaPerubahan ? 'Simpan Perubahan' : 'Berhasil Disimpan';
 }
 
 /* ── Deteksi Sinyal & Status Koneksi Internet ───────────────────────────── */
@@ -85,13 +83,7 @@ function simpan() {
     setStatus('saved', 'Tersimpan');
     if (btn) {
       btn.disabled = true;
-      btn.textContent = '✓ Berhasil Disimpan';
-      setTimeout(function () {
-        if (!adaPerubahan) {
-          btn.textContent = 'Simpan Perubahan';
-          btn.disabled = true;
-        }
-      }, 2000);
+      btn.textContent = 'Berhasil Disimpan';
     }
   }).catch(function (err) {
     console.error('Gagal simpan ke Firebase:', err);
