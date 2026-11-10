@@ -48,6 +48,15 @@ function setKoneksi(online) {
   }
 }
 
+function updateTombolSimpan() {
+  var btn = $('btn-simpan');
+  if (!btn) return;
+  btn.disabled = !adaPerubahan;
+  if (adaPerubahan) {
+    btn.textContent = 'Simpan Perubahan';
+  }
+}
+
 /* ── Deteksi Sinyal & Status Koneksi Internet ───────────────────────────── */
 db.ref('.info/connected').on('value', function (snap) {
   setKoneksi(snap.val() === true);
@@ -75,10 +84,13 @@ function simpan() {
     perubahanLokal = {};
     setStatus('saved', 'Tersimpan');
     if (btn) {
-      btn.disabled = false;
+      btn.disabled = true;
       btn.textContent = '✓ Berhasil Disimpan';
       setTimeout(function () {
-        btn.textContent = 'Simpan Perubahan';
+        if (!adaPerubahan) {
+          btn.textContent = 'Simpan Perubahan';
+          btn.disabled = true;
+        }
       }, 2000);
     }
   }).catch(function (err) {
@@ -153,6 +165,7 @@ function isiNilaiInput() {
       }
       adaPerubahan = true;
       perubahanLokal[key] = true;
+      updateTombolSimpan();
       if (isOnline) setStatus('unsaved', 'Belum disimpan');
     });
   });
@@ -166,6 +179,7 @@ function isiNilaiInput() {
       if (badge) badge.textContent = cb.checked ? 'Aktif' : 'Nonaktif';
       adaPerubahan = true;
       perubahanLokal[key] = true;
+      updateTombolSimpan();
       if (isOnline) setStatus('unsaved', 'Belum disimpan');
     });
   });
@@ -240,6 +254,7 @@ db.ref('ulangan').on('value', function (snapshot) {
     bangunTab();
     isiNilaiInput();
     uiSudahDibangun = true;
+    updateTombolSimpan();
     if (isOnline) setStatus('saved', 'Tersimpan');
     return;
   }
@@ -259,6 +274,7 @@ db.ref('ulangan').on('value', function (snapshot) {
   });
 
   perbaruiNilaiInput();
+  updateTombolSimpan();
 
   if (isOnline && !adaPerubahan) {
     setStatus('saved', 'Tersimpan');
