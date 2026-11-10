@@ -19,7 +19,7 @@
   </div>
   <p class="sub">
     Isi token dan link Google Form untuk tiap kelas dan mata pelajaran.
-    Data tersimpan otomatis ke database &amp; langsung aktif untuk siswa.
+    Klik tombol simpan di bawah untuk memperbarui database.
   </p>
 
   <!-- Tab navigasi kelas (diisi oleh JS) -->
@@ -27,6 +27,13 @@
 
   <!-- Grid tabel per kelas (diisi oleh JS) -->
   <div id="grid"></div>
+
+  <!-- Tombol Simpan di Bawah -->
+  <div class="bottom-actions">
+    <button id="btn-simpan" class="btn btn-simpan" type="button">
+      Simpan Perubahan
+    </button>
+  </div>
 </main>
 
 <!-- Firebase SDK (harus sebelum firebase-config.js dan pengaturan.js) -->

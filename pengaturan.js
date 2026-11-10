@@ -18,7 +18,7 @@ function ambil(k, m, f) {
   return (data[k + '|' + m] && data[k + '|' + m][f]) || '';
 }
 
-var simpanTimer = null;
+var adaPerubahan = false;
 
 function setStatus(tipe, teks) {
   var badge = $('status-badge');
@@ -30,25 +30,32 @@ function setStatus(tipe, teks) {
 }
 
 /** Simpan seluruh data ke Firebase */
-function simpan(segera) {
+function simpan() {
+  var btn = $('btn-simpan');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Menyimpan...';
+  }
   setStatus('saving', 'Menyimpan...');
 
-  clearTimeout(simpanTimer);
-
-  var eksekusi = function () {
-    db.ref('ulangan').set(data).then(function () {
-      setStatus('saved', 'Tersimpan');
-    }).catch(function (err) {
-      console.error('Gagal simpan ke Firebase:', err);
-      setStatus('error', 'Gagal menyimpan');
-    });
-  };
-
-  if (segera) {
-    eksekusi();
-  } else {
-    simpanTimer = setTimeout(eksekusi, 400);
-  }
+  db.ref('ulangan').set(data).then(function () {
+    adaPerubahan = false;
+    setStatus('saved', 'Tersimpan');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '✓ Berhasil Disimpan';
+      setTimeout(function () {
+        btn.textContent = 'Simpan Perubahan';
+      }, 2000);
+    }
+  }).catch(function (err) {
+    console.error('Gagal simpan ke Firebase:', err);
+    setStatus('error', 'Gagal menyimpan');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Coba Simpan Lagi';
+    }
+  });
 }
 
 /* ── Bangun HTML tabel per kelas ────────────────────────────────────────── */
@@ -111,7 +118,8 @@ function isiNilaiInput() {
         el.setAttribute('aria-invalid',
           el.value.trim() && !/^https:\/\//i.test(el.value.trim()) ? 'true' : 'false');
       }
-      simpan(); /* simpan ke Firebase setiap ketikan */
+      adaPerubahan = true;
+      setStatus('unsaved', 'Belum disimpan');
     });
   });
 
@@ -122,7 +130,8 @@ function isiNilaiInput() {
       data[key]['aktif'] = cb.checked ? '1' : '0';
       var badge = cb.closest('td').querySelector('.badge-aktif');
       if (badge) badge.textContent = cb.checked ? 'Aktif' : 'Nonaktif';
-      simpan(true); /* simpan ke Firebase langsung saat toggle */
+      adaPerubahan = true;
+      setStatus('unsaved', 'Belum disimpan');
     });
   });
 }
@@ -148,6 +157,19 @@ function bangunTab() {
     });
   });
 }
+
+/* ── Handler tombol simpan manual di bawah ─────────────────────────────── */
+$('btn-simpan').addEventListener('click', function () {
+  simpan();
+});
+
+/* Peringatkan jika keluar tab saat ada perubahan belum disimpan */
+window.addEventListener('beforeunload', function (e) {
+  if (adaPerubahan) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
 
 /* ── Muat data dari Firebase, lalu bangun UI ────────────────────────────── */
 db.ref('ulangan').once('value', function (snapshot) {

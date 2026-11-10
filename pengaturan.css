@@ -73,6 +73,16 @@ main {
   animation: pulse 0.8s infinite alternate;
 }
 
+/* Status: Belum disimpan */
+.status-badge.status-unsaved {
+  background: #fff8e6;
+  color: #b45309;
+  border-color: #fde68a;
+}
+.status-badge.status-unsaved .status-dot {
+  background: #f59e0b;
+}
+
 /* Status: Gagal */
 .status-badge.status-error {
   background: #fdf2f2;
@@ -247,4 +257,52 @@ textarea {
   font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: .85rem;
   resize: vertical;
+}
+
+/* Area Tombol Simpan di Bawah */
+.bottom-actions {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.btn-simpan {
+  padding: 13px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(31, 58, 95, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-simpan:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(31, 58, 95, 0.3);
+  filter: brightness(1.08);
+}
+
+.btn-simpan:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-simpan:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 600px) {
+  .bottom-actions {
+    justify-content: stretch;
+  }
+  .btn-simpan {
+    width: 100%;
+    text-align: center;
+  }
 }
